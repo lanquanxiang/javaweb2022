@@ -67,3 +67,5 @@ apache-tomcat-9.0.69
 Servers
 build
 /build
+META-INF
+/META-INF
