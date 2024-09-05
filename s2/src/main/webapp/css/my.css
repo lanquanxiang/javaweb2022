@@ -1,0 +1,58 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
+.header,.footer{
+	height: 50px;
+	background-color: #cdcdcd;
+}
+.footer{
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	text-align: center;
+}
+ul>li{
+	list-style-type: none;
+	display: inline-block;
+	margin: 0px 10px 0px 10px;
+	text-align: center;
+}
+ul{
+	line-height: 50px;
+}
+a{
+	color: blue;
+	text-decoration: none;
+}
+.footer>span{
+	line-height: 50px;
+}
+.menu{
+	color: red;
+	position: relative;
+	width: 100px;
+}
+.menu>ul{
+	display: none;
+}
+.menu:hover>ul{
+	display: block;
+	position: absolute;
+	line-height: 30px;
+}
+.title{
+	padding: 50px;
+	text-align: center;
+}
+form table{
+	margin: auto;
+	text-align: center;
+}
+ table input[type="text"],input[type="password"]{
+	 width: 250px;
+ }
+input[type="submit"],input[type="button"]{
+	width: 100px;
+	height: 25px;
+}
