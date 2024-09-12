@@ -46,7 +46,7 @@
 				</li>
 				<li><a href="">退出</a></li>
 				<li><a href="login.jsp">登录</a></li>
-				<li><a href="">注册</a></li>
+				<li><a href="regist.jsp">注册</a></li>
 			</ul>
 		</div>
 		
