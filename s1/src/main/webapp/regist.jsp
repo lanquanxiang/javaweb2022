@@ -12,7 +12,7 @@
 	</head>
 	<body>
 		<h1 class="title">用户注册</h1>
-		<form action="userinfo.jsp" method="get">
+		<form action="regist" method="get">
 			<table>
 				<tr>
 					<td>账号</td>
@@ -38,8 +38,8 @@
 				<tr>
 					<td>性别</td>
 					<td colspan="2" align="left">
-						<input type="radio"  value="男" name="sex" checked="checked"/>男
-						<input type="radio"  value="女" name="sex"/>女
+						<input type="radio"  value="1" name="sex" checked="checked"/>男
+						<input type="radio"  value="0" name="sex"/>女
 					</td>
 				</tr>
 				<tr>

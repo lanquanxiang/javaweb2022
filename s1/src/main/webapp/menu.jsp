@@ -4,12 +4,11 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title></title>
 		<link rel="stylesheet" type="text/css" href="css/my.css" />
 	</head>
 	<body>
 		<div class="header">
-			<a href="" style="float: left;">
+			<a href="index.jsp" style="float: left;">
 				<img src="img/logo.png" height="50px">
 			</a>
 			<ul style="float: left;">
@@ -40,14 +39,14 @@
 			<ul style="float: right;">
 				<li class="menu">个人中心
 					<ul>
-						<li><a href="">个人信息</a></li>
+						<li><a href="userinfo.jsp">个人信息</a></li>
 						<li><a href="">修改密码</a></li>
 						<li><a href="">注销用户</a></li>
 					</ul>
 				</li>
 				<li><a href="">退出</a></li>
-				<li><a href="">登录</a></li>
-				<li><a href="">注册</a></li>
+				<li><a href="login.jsp">登录</a></li>
+				<li><a href="regist.jsp">注册</a></li>
 			</ul>
 		</div>
 		<div class="footer">

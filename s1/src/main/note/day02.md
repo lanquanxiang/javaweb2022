@@ -38,11 +38,32 @@
 
 ## 4.2 请求和响应【重点，处理HTTP请求和响应】
 1. 了解HTTP请求和响应消息构成
+2. 对象的重要方法
 ### request的作用
 1. 获取用户的请求方式 get/post（SpringMVC可以区分）   request.getMethod()
 2. 获取用户的主机/IP地址（黑名单/白名单）
 3. 获取访问来源（防盗链 实现：读取referer 匹配内容 ） 破解：修改请求头
 4. 获取用户提交数据【重要重要】
+	request.getParameter("表单中控件的名字")
+	request.getParameterValues("表单中控件的名字")
+5. 获得请求转发器执行转发 request.getRequestDispatcher("URL").forward(request, response);
+
+### response的作用
+1. 重定向 response.sendRedirect("URL");
+
+## 4.3 存储对象
+1. 对象
+	1. request
+	2. session
+	3. application
+2. 区别
+	1. 范围不同 request 一次请求  session一次回话  application服务器（所有用户共享）
+	2. 获取其他对象
+		session = request.getSession();  重要
+		application = request.getServletContext()	
+3. 增删改查方法
+	1. setAttribute("key",value)
+
 
 
 
