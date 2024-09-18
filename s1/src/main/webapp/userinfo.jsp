@@ -32,9 +32,8 @@
 			</tr>
 			<tr>
 				<td>性别</td>
-				<td colspan="2" align="left"><input type="radio" value="1"
-					name="sex" />男 <input type="radio" value="0"
-					name="sex" />女</td>
+				<td colspan="2" align="left"><input type="radio" value="1"	name="sex" ${userinfo.gender==1?"checked":""}/>男 
+					<input type="radio" value="0" name="sex" ${userinfo.gender==0?"checked":""}/>女</td>
 			</tr>
 			<tr>
 				<td>关注类型</td>

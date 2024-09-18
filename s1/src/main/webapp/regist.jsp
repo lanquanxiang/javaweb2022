@@ -12,7 +12,7 @@
 	</head>
 	<body>
 		<h1 class="title">用户注册</h1>
-		<form action="regist" method="get">
+		<form action="regist" method="post">
 			<table>
 				<tr>
 					<td>账号</td>
