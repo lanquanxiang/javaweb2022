@@ -8,6 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.alibaba.fastjson.JSON;
+
+import cn.edu.pzhu.pojo.User;
+import cn.edu.pzhu.pojo.UserInfo;
+
 /**
  * Servlet implementation class RegistServlet
  */
@@ -27,6 +32,9 @@ public class RegistServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//0.处理编码
+		request.setCharacterEncoding("utf-8");//防止POST乱码
+		
 		//1.接受数据
 		String username=request.getParameter("username");
 		String password=request.getParameter("password");
@@ -55,8 +63,19 @@ public class RegistServlet extends HttpServlet {
 			response.sendRedirect("error.jsp");
 			return;
 		}
+		//3.类型转换
+		int gender = Integer.parseInt(sex);//将字符串强制转换为int，可能会出现异常，缺少try catch
+		String type = JSON.toJSONString(types);//调用阿里巴巴的庫将数组转为JSON
 		
-
+		//4.数据封装
+		User user = new User(username, password, 1);//1表示账号可以使用
+		UserInfo userinfo = new UserInfo(username, email, gender, type);
+		//5.省略数据库操作
+		//6.7.
+		session.setAttribute("user", user);
+		session.setAttribute("userinfo", userinfo);
+		response.sendRedirect("userinfo.jsp");
+		return;
 		
 		
 		

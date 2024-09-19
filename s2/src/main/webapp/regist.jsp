@@ -12,7 +12,7 @@
 	</head>
 	<body>
 		<h1 class="title">用户注册</h1>
-		<form action="regist" method="get">
+		<form action="regist" method="post">
 			<table>
 				<tr>
 					<td>账号</td>
@@ -49,7 +49,7 @@
 				</tr>
 				<tr>
 					<td>验证码</td>
-					<td ><input type="text" name="captcha" /></td>
+					<td ><input type="text" name="captcha"  value="gbcw"/></td>
 					<td><img src="img/captcha.jpg"/></td>
 				</tr>
 				<tr>

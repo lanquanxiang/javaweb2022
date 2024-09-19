@@ -9,7 +9,7 @@
 </head>
 <body>	
 	<h1 class="title">
-		<%=session.getAttribute("msg") %>
+		${msg}
 	</h1>
 </body>
 </html>
