@@ -48,21 +48,26 @@ public class RegistServlet extends HttpServlet {
 		//2.数据校验
 		if(!"gbcw".equalsIgnoreCase(captcha)) {
 			//提醒用户名不能为空			
-			session.setAttribute("msg", "验证码输入错误");			
+			session.setAttribute("msg", "验证码输入错误");		
+			
+			session.setAttribute("url", "regist.jsp");
+			
 			//返回视图View(异常处理建议使用重定向)
 			response.sendRedirect("error.jsp");
 			return; //流程结束，后续代码不需要再执行...
 		}
 		if("".equals(username)) {//文本框没有输入，结果是""
 			//提醒用户名不能为空			
-			session.setAttribute("msg", "用户名不能为空");			
+			session.setAttribute("msg", "用户名不能为空");	
+			session.setAttribute("url", "regist.jsp");
 			//返回视图View(异常处理建议使用重定向)
 			response.sendRedirect("error.jsp");
 			return; //流程结束，后续代码不需要再执行...
 		}
 		if(types==null) { //复选框没有选择，结果是null
 			//提醒用户名不能为空			
-			session.setAttribute("msg", "关注类型不能为空");			
+			session.setAttribute("msg", "关注类型不能为空");	
+			session.setAttribute("url", "regist.jsp");
 			//返回视图View(异常处理建议使用重定向)
 			response.sendRedirect("error.jsp");
 			return; //流程结束，后续代码不需要再执行...
@@ -82,8 +87,9 @@ public class RegistServlet extends HttpServlet {
 		session.setAttribute("user", user);
 		
 		//6.回到个人信息页面
-		response.sendRedirect("userinfo.jsp");
-		
+		//response.sendRedirect("userinfo.jsp");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().print("<script>alert('注册成功!');location.href='userinfo.jsp'</script>");
 		
 	}
 
