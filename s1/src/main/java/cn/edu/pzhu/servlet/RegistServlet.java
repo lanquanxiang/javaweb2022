@@ -75,6 +75,17 @@ public class RegistServlet extends HttpServlet {
 			return; //流程结束，后续代码不需要再执行...
 		}
 		
+		//检查是否已经被注册
+		ServletContext application = request.getServletContext();
+		Object o = application.getAttribute("user"+username);
+		if (o!=null) {
+			session.setAttribute("msg", "此用户已经被注册，请重新注册");	
+			session.setAttribute("url", "regist.jsp");
+			response.sendRedirect("error.jsp");
+			return;
+		}
+		
+		
 		
 		int gender = Integer.parseInt(sex);//强制类型转换，注意异常捕获（不完整）
 		String type = JSON.toJSONString(types); //类型转换
@@ -89,7 +100,7 @@ public class RegistServlet extends HttpServlet {
 //		session.setAttribute("user", user);
 		
 		//5.将注册信息写入application
-		ServletContext application = request.getServletContext();
+		
 		application.setAttribute("user"+username, user);   //userzhangsan
 		application.setAttribute("userinfo"+username, userinfo); //userinfozhangsan
 		

@@ -55,7 +55,7 @@
 				<tr>
 					<td>验证码</td>
 					<td>
-						<input type="text" name="captcha"/>
+						<input type="text" name="captcha" value="gbcw"/>
 					</td>
 					<td>
 						<img alt="" src="img/captcha.jpg">
