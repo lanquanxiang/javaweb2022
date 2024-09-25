@@ -1,6 +1,8 @@
 package cn.edu.pzhu.servlet;
 
 import java.io.IOException;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -83,13 +85,19 @@ public class RegistServlet extends HttpServlet {
 		UserInfo userinfo = new UserInfo(username, email, gender , type);
 		//4.调用模型（省略）
 		//5.保存信息回到视图
-		session.setAttribute("userinfo", userinfo);
-		session.setAttribute("user", user);
+//		session.setAttribute("userinfo", userinfo);
+//		session.setAttribute("user", user);
+		
+		//5.将注册信息写入application
+		ServletContext application = request.getServletContext();
+		application.setAttribute("user"+username, user);   //userzhangsan
+		application.setAttribute("userinfo"+username, userinfo); //userinfozhangsan
+		
 		
 		//6.回到个人信息页面
 		//response.sendRedirect("userinfo.jsp");
 		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().print("<script>alert('注册成功!');location.href='userinfo.jsp'</script>");
+		response.getWriter().print("<script>alert('注册成功，请登录!');location.href='login.jsp'</script>");
 		
 	}
 
