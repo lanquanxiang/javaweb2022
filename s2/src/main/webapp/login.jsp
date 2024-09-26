@@ -12,15 +12,15 @@
 	</head>
 	<body>
 		<h1 class="title">用户登录</h1>
-		<form action="">
+		<form action="login" method="post">
 			<table>
 				<tr>
 					<td>账号</td>
-					<td colspan="2"><input type="text" name="" id="" value="" /></td>
+					<td colspan="2"><input type="text" name="username" /></td>
 				</tr>
 				<tr>
 					<td>密码</td>
-					<td colspan="2"><input type="password" name="" id="" value="" /></td>
+					<td colspan="2"><input type="password" name="password" /></td>
 				</tr>
 				<tr>
 					<td></td>

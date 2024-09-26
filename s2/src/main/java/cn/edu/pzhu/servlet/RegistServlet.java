@@ -3,6 +3,7 @@ package cn.edu.pzhu.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -77,6 +78,18 @@ public class RegistServlet extends HttpServlet {
 			response.sendRedirect("error.jsp");
 			return;
 		}
+		
+		//检测账号是否已经被注册
+		ServletContext application = request.getServletContext();
+		
+		Object object = application.getAttribute("user"+username);
+		if(object!=null) {
+			session.setAttribute("msg", "此用户已经被注册，请重新注册！");
+			session.setAttribute("url", "regist.jsp");
+			response.sendRedirect("error.jsp");
+			return;
+		}
+		
 		//3.类型转换
 		int gender = Integer.parseInt(sex);//将字符串强制转换为int，可能会出现异常，缺少try catch
 		String type = JSON.toJSONString(types);//调用阿里巴巴的庫将数组转为JSON
@@ -85,13 +98,15 @@ public class RegistServlet extends HttpServlet {
 		User user = new User(username, password, 1);//1表示账号可以使用
 		UserInfo userinfo = new UserInfo(username, email, gender, type);
 		//5.省略数据库操作
-		//6.保存信息
-		session.setAttribute("user", user);
-		session.setAttribute("userinfo", userinfo);
+		//6.保存信息到服务器application模拟数据
+		
+		application.setAttribute("user"+username, user);
+		application.setAttribute("userinfo"+username, userinfo);
+		
 		//7.回到视图
 		//response.sendRedirect("userinfo.jsp"); //重定向
 		
-		out.print("<script>alert('注册成功!');window.location.href='userinfo.jsp';</script>");
+		out.print("<script>alert('注册成功，请登录!');window.location.href='login.jsp';</script>");
 		return;
 		
 		
