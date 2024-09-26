@@ -11,10 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.alibaba.fastjson.JSON;
 
 import cn.edu.pzhu.pojo.User;
-import cn.edu.pzhu.pojo.UserInfo;
 
 /**
  * Servlet implementation class LoginServlet
