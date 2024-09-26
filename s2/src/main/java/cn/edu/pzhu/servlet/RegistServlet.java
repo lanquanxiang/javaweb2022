@@ -48,6 +48,13 @@ public class RegistServlet extends HttpServlet {
 		String code=request.getParameter("captcha");
 		
 		HttpSession session = request.getSession();//通过request得到session存储对象
+		
+		
+		//response.setCharacterEncoding("utf-8");
+		//response.setContentType("text/html");
+		response.setContentType("text/html;charset=utf-8");
+		
+		
 		PrintWriter out = response.getWriter(); //得到输出流
 		//2.数据校验
 		if("".equals(username)) { //文本框没有输入得到的是空串；Java中字符串不能用==比较
