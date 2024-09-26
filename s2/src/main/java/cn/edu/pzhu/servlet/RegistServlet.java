@@ -1,6 +1,8 @@
 package cn.edu.pzhu.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,6 +34,8 @@ public class RegistServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		
 		//0.处理编码
 		request.setCharacterEncoding("utf-8");//防止POST乱码
 		
@@ -44,22 +48,25 @@ public class RegistServlet extends HttpServlet {
 		String code=request.getParameter("captcha");
 		
 		HttpSession session = request.getSession();//通过request得到session存储对象
-		
+		PrintWriter out = response.getWriter(); //得到输出流
 		//2.数据校验
 		if("".equals(username)) { //文本框没有输入得到的是空串；Java中字符串不能用==比较
 			//保存信息，回到视图
 			session.setAttribute("msg", "用户名不能为空！");
+			session.setAttribute("url", "regist.jsp");
 			response.sendRedirect("error.jsp");
 			return;
 		}
 		if(!"gbcw".equalsIgnoreCase(code)) {
 			//保存信息，回到视图
 			session.setAttribute("msg", "验证码输入错误！");
+			session.setAttribute("url", "regist.jsp");
 			response.sendRedirect("error.jsp");
 			return;
 		}
 		if(types==null) {//单选多选一个都没有选，得到的是null；Java中==null
 			session.setAttribute("msg", "关注类型必须要选择！");
+			session.setAttribute("url", "regist.jsp");
 			response.sendRedirect("error.jsp");
 			return;
 		}
@@ -71,10 +78,13 @@ public class RegistServlet extends HttpServlet {
 		User user = new User(username, password, 1);//1表示账号可以使用
 		UserInfo userinfo = new UserInfo(username, email, gender, type);
 		//5.省略数据库操作
-		//6.7.
+		//6.保存信息
 		session.setAttribute("user", user);
 		session.setAttribute("userinfo", userinfo);
-		response.sendRedirect("userinfo.jsp");
+		//7.回到视图
+		//response.sendRedirect("userinfo.jsp"); //重定向
+		
+		out.print("<script>alert('注册成功!');window.location.href='userinfo.jsp';</script>");
 		return;
 		
 		
