@@ -31,7 +31,7 @@
 					</ul>
 				</li>
 				<li >文件检索
-					<form action="" method="" style="display: inline-block;">
+					<form action="" method="post" style="display: inline-block;">
 						<input type="text" name="" id="" value="" style="line-height: 25px;width: 150px;"/>
 						<input type="image" src="./img/search.png" height="20px" style="vertical-align: middle;"/>
 					</form>
