@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 0.重置编码
-		request.setCharacterEncoding("utf-8");
+		//request.setCharacterEncoding("utf-8");
 		// 1.接收参数
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");		

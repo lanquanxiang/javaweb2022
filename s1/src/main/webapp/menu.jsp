@@ -58,8 +58,8 @@
 		</div>
 		<div class="footer">
 			<span>攀枝花学院&copy;软本1班</span>
-			<span>网站访问量：82</span>
-			<span>当前登录人数：1</span>
+			<span>网站访问量：${empty visitor?0:vistors}</span>
+			<span>当前登录人数：${empty online?0:online }</span>
 		</div>
 	</body>
 </html>
