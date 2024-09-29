@@ -1,6 +1,7 @@
 package cn.edu.pzhu.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -10,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.alibaba.fastjson.JSON;
 
 import cn.edu.pzhu.pojo.User;
+import cn.edu.pzhu.pojo.UserInfo;
 
 /**
  * Servlet implementation class LoginServlet
@@ -68,7 +71,15 @@ public class LoginServlet extends HttpServlet {
 		//到这里表示登录成功，然后将用户数据（user、userinfo）保存到session【1.方便之后使用；2.可以根据session中是否有数据，判断是否登录了】
 		session.setAttribute("userinfo", application.getAttribute("userinfo"+username));
 		session.setAttribute("user", o);	
-
+		
+		Object userinfoObject = application.getAttribute("userinfo"+username);
+		if(userinfoObject instanceof UserInfo userinfo) {
+			String type = userinfo.getType(); //关注类型是一个JSON字符串
+			List<String> types = JSON.parseArray(type, String.class);
+			session.setAttribute("types", types);
+					
+		}
+		
 		// 6.回到个人信息页面		
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().print("<script>alert('登录成功，请登录!');location.href='index.jsp'</script>");
