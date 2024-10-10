@@ -1,12 +1,14 @@
 <%@page import="java.util.Arrays"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="menu.jsp"/>  
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>个人信息</title>
+<script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
 </head>
 <body>
 	<h1 class="title">个人信息</h1>
@@ -53,5 +55,10 @@
 				</tr>
 			</table>
 		</form>
+		<c:forEach items="${types}" var="type">
+			<script type="text/javascript">
+				$(":checkbox[value=${type}]").attr("checked","checked")				
+			</script>
+		</c:forEach>
 </body>
 </html>
