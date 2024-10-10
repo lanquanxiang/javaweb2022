@@ -60,8 +60,8 @@
 		
 		<div class="footer">
 			<span>攀枝花学院&copy;软件二班</span>
-			<span>网站访问量：5</span>
-			<span>当前登录人数：1</span>
+			<span>网站访问量：${empty v?0:v}</span>
+			<span>当前登录人数：${empty o?0:o}</span>
 		</div>
 		
 	</body>
