@@ -36,12 +36,7 @@ public class VisitorListener implements HttpSessionListener {
      * @see HttpSessionListener#sessionDestroyed(HttpSessionEvent)
      */
     public void sessionDestroyed(HttpSessionEvent se)  { 
-    	synchronized (VisitorListener.class) {
-   		 System.out.println("有用户与服务器断开了链接");
-   	     int num =  Num.getVisitor()-1;
-   	     Num.setVisitor(num);
-   	     se.getSession().getServletContext().setAttribute("visitor", num); //存入域对象，提供给前端页面使用
-		}      
+    	  
     }
 	
 }

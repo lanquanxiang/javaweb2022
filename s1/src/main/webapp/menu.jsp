@@ -13,7 +13,7 @@
 				<img src="img/logo.png" height="50px">
 			</a>
 			<ul style="float: left;">
-				<li><a href="">文件列表</a></li>
+				<li><a href="showlist">文件列表</a></li>
 				<li class="menu">分类查看
 					<ul>
 						<li><a href="">法律规定</a></li>
@@ -31,8 +31,8 @@
 					</ul>
 				</li>
 				<li >文件检索
-					<form action="" method="post" style="display: inline-block;">
-						<input type="text" name="" id="" value="" style="line-height: 25px;width: 150px;"/>
+					<form action="searchFileByKeyword" method="post" style="display: inline-block;">
+						<input type="text" name="keyword" value="${keyword}"  style="line-height:25px;width: 150px;"/>
 						<input type="image" src="./img/search.png" height="20px" style="vertical-align: middle;"/>
 					</form>
 				</li>
