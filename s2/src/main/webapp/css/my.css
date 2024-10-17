@@ -7,7 +7,7 @@
 	background-color: #cdcdcd;
 }
 .footer{
-	position: absolute;
+	position: fixed;
 	bottom: 0px;
 	width: 100%;
 	text-align: center;
@@ -45,10 +45,12 @@ a{
 	padding: 50px;
 	text-align: center;
 }
-form table{
+table{
 	margin: auto;
 	text-align: center;
+	margin-bottom:100px;
 }
+
  table input[type="text"],input[type="password"]{
 	 width: 250px;
  }
