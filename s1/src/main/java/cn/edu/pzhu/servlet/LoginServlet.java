@@ -1,9 +1,7 @@
 package cn.edu.pzhu.servlet;
 
 import java.io.IOException;
-import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,10 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.alibaba.fastjson.JSON;
 
+import cn.edu.pzhu.pojo.Msg;
 import cn.edu.pzhu.pojo.User;
-import cn.edu.pzhu.pojo.UserInfo;
+import cn.edu.pzhu.service.UserService;
+import cn.edu.pzhu.service.imp.UserServiceImp;
 
 /**
  * Servlet implementation class LoginServlet
@@ -37,53 +36,35 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// 0.重置编码
-		//request.setCharacterEncoding("utf-8");
-		// 1.接收参数
+		//1.接收参数
 		String username = request.getParameter("username");
-		String password = request.getParameter("password");		
-
+		String password = request.getParameter("password");	
 		HttpSession session = request.getSession();
-		// 2.数据校验		
+		//2.数据校验	
 		if ("".equals(username) || "".equals(password)) {// 文本框没有输入，结果是""
 			session.setAttribute("msg", "用户名或密码不能为空");
 			session.setAttribute("url", "login.jsp");
 			response.sendRedirect("error.jsp");
 			return;
-		}		
-		// 检查是否已经被注册
-		ServletContext application = request.getServletContext();
-		Object o = application.getAttribute("user" + username);
-		if (o == null) {
-			session.setAttribute("msg", "此用户不存在，请先注册再登录");
-			session.setAttribute("url", "regist.jsp");
+		}
+		//3.数据封装
+		User user = new User(username, password, 1);//注册的账号默认状态为1，表示可用；状态应该以数据库中的为准
+		//4.调用业务层进行业务处理
+		UserService us = new UserServiceImp();
+		Msg msg = us.login(user);//执行登录
+		
+		if (msg.isSuccess()) {
+			//登录成功
+			session.setAttribute("user", user);
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().print("<script>alert('登录成功，请登录!');location.href='index.jsp'</script>");
+		}else {
+			//失败
+			session.setAttribute("msg", msg.getMessage());//将失败消息保存
+			session.setAttribute("url", "login.jsp");
 			response.sendRedirect("error.jsp");
 			return;
-		}		
-		if (o instanceof User dbuser) {			
-			if (!dbuser.getPassword().equals(password)) {
-				session.setAttribute("msg", "密码输入错误，请重新登录");
-				session.setAttribute("url", "login.jsp");
-				response.sendRedirect("error.jsp");
-				return;
-			}			
-		}		
-		//到这里表示登录成功，然后将用户数据（user、userinfo）保存到session【1.方便之后使用；2.可以根据session中是否有数据，判断是否登录了】
-		session.setAttribute("userinfo", application.getAttribute("userinfo"+username));
-		session.setAttribute("user", o);	
-		
-		Object userinfoObject = application.getAttribute("userinfo"+username);
-		if(userinfoObject instanceof UserInfo userinfo) {
-			String type = userinfo.getType(); //关注类型是一个JSON字符串
-			List<String> types = JSON.parseArray(type, String.class);
-			session.setAttribute("types", types);
-					
 		}
-		
-		// 6.回到个人信息页面		
-		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().print("<script>alert('登录成功，请登录!');location.href='index.jsp'</script>");
-
 	}
 
 	/**
