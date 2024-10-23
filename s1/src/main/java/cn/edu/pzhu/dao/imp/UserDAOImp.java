@@ -14,8 +14,22 @@ public class UserDAOImp implements UserDAO {
 
 	@Override
 	public int insert(User t) {
-		// TODO Auto-generated method stub
-		return 0;
+		int n = 0;
+		Connection con = JDBCUtil.getConnection();
+		String sql="insert into user (?,?,?)";
+		PreparedStatement sta = null;
+		try {
+			sta = con.prepareStatement(sql);
+			sta.setString(1, t.getUsername());
+			sta.setString(2, t.getPassword());
+			sta.setInt(3, t.getStatus());
+			n = sta.executeUpdate();			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCUtil.close(con, sta);
+		}
+		return n;
 	}
 
 	@Override

@@ -14,7 +14,7 @@ String url = (String)session.getAttribute("url");
 
 response.setHeader("refresh",  "3;url='"+url+"'"); %>
 <h1 class="title">
-	${msg},3秒之后将跳转到${url}。
+	${msg}3秒之后将跳转到${url}。
 </h1>
 
 </body>

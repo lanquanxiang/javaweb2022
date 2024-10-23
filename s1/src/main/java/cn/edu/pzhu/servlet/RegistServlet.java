@@ -2,7 +2,6 @@ package cn.edu.pzhu.servlet;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,8 +11,11 @@ import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSON;
 
+import cn.edu.pzhu.pojo.Msg;
 import cn.edu.pzhu.pojo.User;
 import cn.edu.pzhu.pojo.UserInfo;
+import cn.edu.pzhu.service.UserService;
+import cn.edu.pzhu.service.imp.UserServiceImp;
 
 /**
  * Servlet implementation class RegistServlet
@@ -73,43 +75,25 @@ public class RegistServlet extends HttpServlet {
 			//返回视图View(异常处理建议使用重定向)
 			response.sendRedirect("error.jsp");
 			return; //流程结束，后续代码不需要再执行...
-		}
-		
-		//检查是否已经被注册
-		ServletContext application = request.getServletContext();
-		Object o = application.getAttribute("user"+username);
-		if (o!=null) {
-			session.setAttribute("msg", "此用户已经被注册，请重新注册");	
-			session.setAttribute("url", "regist.jsp");
-			response.sendRedirect("error.jsp");
-			return;
-		}
-		
-		
-		
+		}		
 		int gender = Integer.parseInt(sex);//强制类型转换，注意异常捕获（不完整）
 		String type = JSON.toJSONString(types); //类型转换
-		
-		
+				
 		//3.数据封装
 		User user = new User(username,password,1);//默认账号可用，状态为1		
 		UserInfo userinfo = new UserInfo(username, email, gender , type);
 		//4.调用模型（省略）
-		//5.保存信息回到视图
-//		session.setAttribute("userinfo", userinfo);
-//		session.setAttribute("user", user);
-		
-		//5.将注册信息写入application
-		
-		application.setAttribute("user"+username, user);   //userzhangsan
-		application.setAttribute("userinfo"+username, userinfo); //userinfozhangsan
-		
-		
-		//6.回到个人信息页面
-		//response.sendRedirect("userinfo.jsp");
-		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().print("<script>alert('注册成功，请登录!');location.href='login.jsp'</script>");
-		
+		UserService us = new UserServiceImp();
+		Msg msg = us.regist(user, userinfo);
+		if (msg.isSuccess()) {
+			session.setAttribute("userinfo", userinfo);
+			session.setAttribute("user", user);
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().print("<script>alert('注册成功，请登录!');location.href='login.jsp'</script>");
+		}else {
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().print("<script>alert('"+msg.getMessage()+"');location.href='login.jsp'</script>");
+		}		
 	}
 
 	/**

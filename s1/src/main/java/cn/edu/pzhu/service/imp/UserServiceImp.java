@@ -5,6 +5,7 @@ import cn.edu.pzhu.dao.imp.UserDAOImp;
 import cn.edu.pzhu.pojo.Msg;
 import cn.edu.pzhu.pojo.User;
 import cn.edu.pzhu.pojo.UserInfo;
+import cn.edu.pzhu.service.UserInfoService;
 import cn.edu.pzhu.service.UserService;
 
 public class UserServiceImp implements UserService{
@@ -33,8 +34,24 @@ public class UserServiceImp implements UserService{
 
 	@Override
 	public Msg regist(User user, UserInfo userinfo) {
-		// TODO Auto-generated method stub
-		return null;
+		if(user==null||userinfo==null) {
+			return new Msg(false, "数据异常！");
+		}
+		User dbuser = dao.selectById(user.getUsername());
+		if(dbuser!=null) {
+			return new Msg(false, "账号已经被注册！");	
+		}
+		int n=dao.insert(user);
+		if(n>0) {
+			//插入账号成功
+			UserInfoService uis=new UserInfoServiceImp();
+			Msg msg=uis.registInfo(userinfo);
+			return msg;
+		}
+		else {
+			return new Msg(false, "账号失败！");
+		}
+		
 	}
 
 	@Override
