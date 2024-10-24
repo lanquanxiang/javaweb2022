@@ -1,7 +1,9 @@
 package cn.edu.pzhu.service.imp;
 
 import cn.edu.pzhu.dao.UserDAO;
+import cn.edu.pzhu.dao.UserInfoDAO;
 import cn.edu.pzhu.dao.imp.UserDAOImp;
+import cn.edu.pzhu.dao.imp.UserInfoDAOImp;
 import cn.edu.pzhu.pojo.Msg;
 import cn.edu.pzhu.pojo.User;
 import cn.edu.pzhu.pojo.UserInfo;
@@ -11,6 +13,7 @@ public class UserServiceImp implements UserService {
 	
 	//初始化持久层
 	private UserDAO userdao = new UserDAOImp();
+	private UserInfoDAO userinfodao = new UserInfoDAOImp();
 	
 	@Override
 	public Msg login(User user) {
@@ -32,8 +35,18 @@ public class UserServiceImp implements UserService {
 
 	@Override
 	public Msg regist(User user, UserInfo userinfo) {
-		// TODO Auto-generated method stub
-		return null;
+		if(user==null || userinfo==null) {
+			return new Msg(false, "注册失败，注册信息异常!");
+		}
+		User dbUser = userdao.selectById(user.getUsername());
+		if (dbUser!=null) {
+			return new Msg(false, "此用户已经被注册!");
+		}
+		if(userdao.insert(user) && userinfodao.insert(userinfo)) {
+			return new Msg(true, "注册成功!");
+		}else {
+			return new Msg(false, "数据库操作异常，注册失败!");
+		}
 	}
 
 	@Override

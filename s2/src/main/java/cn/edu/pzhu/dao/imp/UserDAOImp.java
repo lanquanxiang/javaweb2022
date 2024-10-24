@@ -13,8 +13,9 @@ public class UserDAOImp implements UserDAO{
 
 	@Override
 	public boolean insert(User obj) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean flag = false;
+		
+		return flag;
 	}
 
 	@Override
