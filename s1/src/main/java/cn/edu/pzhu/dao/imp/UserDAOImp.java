@@ -16,7 +16,7 @@ public class UserDAOImp implements UserDAO {
 	public int insert(User t) {
 		int n = 0;
 		Connection con = JDBCUtil.getConnection();
-		String sql="insert into user (?,?,?)";
+		String sql="insert into user values(?,?,?)";
 		PreparedStatement sta = null;
 		try {
 			sta = con.prepareStatement(sql);

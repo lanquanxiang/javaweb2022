@@ -2,9 +2,7 @@ package cn.edu.pzhu.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,10 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.alibaba.fastjson.JSON;
 
+import cn.edu.pzhu.pojo.Msg;
 import cn.edu.pzhu.pojo.User;
-import cn.edu.pzhu.pojo.UserInfo;
+import cn.edu.pzhu.service.UserService;
+import cn.edu.pzhu.service.imp.UserServiceImp;
 
 /**
  * Servlet implementation class LoginServlet
@@ -36,15 +35,9 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		//0.处理编码
-		//request.setCharacterEncoding("utf-8");//防止POST乱码
-		
-		//1.接受数据
+		//1.接收数据
 		String username=request.getParameter("username");
 		String password=request.getParameter("password");
-	
-		
 		HttpSession session = request.getSession();//通过request得到session存储对象		
 		response.setContentType("text/html;charset=utf-8");		
 		PrintWriter out = response.getWriter(); //得到输出流
@@ -56,42 +49,23 @@ public class LoginServlet extends HttpServlet {
 			response.sendRedirect("error.jsp");
 			return;
 		}
-				
-		//检测账号是否已经被注册
-		ServletContext application = request.getServletContext();
-		
-		Object object = application.getAttribute("user"+username);
-		if(object==null) {
-			session.setAttribute("msg", "此用户还没有被注册，请先注册！");
-			session.setAttribute("url", "regist.jsp");
+		//3.数据封装
+		User user = new User(username, password, null);//第三个值表示账号的状态，状态以数据库中的为准，这个值是什么没有影响
+		//4.调用业务层进行数据处理
+		UserService us = new UserServiceImp();//初始化业务层接口（实现类来new）
+		Msg msg = us.login(user);
+		//5.结果处理
+		if(msg.isSuccess()) {
+			//成功
+			session.setAttribute("user", user);//6.将信息存入session，表示登录成功；方面后续读取用户信息
+			out.print("<script>alert('登录成功!');window.location.href='index.jsp';</script>");
+		}else {
+		    //失败
+			session.setAttribute("msg", msg.getMessage());
+			session.setAttribute("url", "login.jsp");
 			response.sendRedirect("error.jsp");
 			return;
 		}
-		
-		if(object instanceof User dbUser) {
-			if(!dbUser.getPassword().equals(password)) {
-				session.setAttribute("msg", "密码输入错误！");
-				session.setAttribute("url", "login.jsp");
-				response.sendRedirect("error.jsp");
-				return;
-			}
-			//6.将信息存入session，表示登录成功；方面后续读取用户信息
-			session.setAttribute("user", dbUser);
-			session.setAttribute("userinfo", application.getAttribute("userinfo"+username));
-			
-			Object info = application.getAttribute("userinfo"+username);
-			if(info instanceof UserInfo userinfo) {
-				String type = userinfo.getType();
-				List<String> types = JSON.parseArray(type, String.class);//将存储的JSON关注类型转为数组（String）
-				session.setAttribute("types", types);//存在域对象中，给JSP页面使用
-				System.out.println(type);
-			}
-			
-			
-		}
-				
-		out.print("<script>alert('登录成功!');window.location.href='index.jsp';</script>");
-		return;
 	}
 
 	/**
