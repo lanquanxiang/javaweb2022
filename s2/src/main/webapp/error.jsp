@@ -13,7 +13,7 @@
 	response.setHeader("refresh", "3;url='"+url+"'");
 %>
 	<h1 class="title">
-		${msg}，3秒之后跳转到${url}。
+		${msg}3秒之后跳转到${url}。
 	</h1>
 </body>
 </html>
