@@ -35,7 +35,7 @@ public class UserDAOImp implements UserDAO{
 		User user = null;
 		//1.注册驱动
 		//2.创建连接
-		Connection con = JDBCUtil.getConnection();
+		Connection con = JDBCUtil.getConnection();//产生新链接
 		PreparedStatement sta = null;
 		ResultSet res = null;
 		
