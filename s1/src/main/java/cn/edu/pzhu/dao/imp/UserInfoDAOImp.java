@@ -16,8 +16,8 @@ public class UserInfoDAOImp implements UserInfoDAO {
 
 	@Override
 	public int insert(UserInfo t) {
-		// TODO Auto-generated method stub
-		return 0;
+		String sql = "insert into userinfo values(?,?,?,?)";
+		return template.update(sql, t.getUsername(),t.getEmail(),t.getGender(),t.getType());
 	}
 
 	@Override
