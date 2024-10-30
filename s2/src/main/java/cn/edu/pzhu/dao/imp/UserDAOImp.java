@@ -10,6 +10,8 @@ import cn.edu.pzhu.pojo.User;
 import cn.edu.pzhu.util.JDBCUtil;
 
 public class UserDAOImp implements UserDAO{
+	
+	
 
 	@Override
 	public boolean insert(User obj) {

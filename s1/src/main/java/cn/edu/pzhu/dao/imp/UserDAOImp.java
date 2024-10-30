@@ -6,11 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import cn.edu.pzhu.dao.UserDAO;
 import cn.edu.pzhu.pojo.User;
+import cn.edu.pzhu.util.DruidUtil;
 import cn.edu.pzhu.util.JDBCUtil;
 
 public class UserDAOImp implements UserDAO {
+	
+	private JdbcTemplate template = new JdbcTemplate(DruidUtil.getDataSource());
 
 	@Override
 	public int insert(User t) {
@@ -34,8 +41,15 @@ public class UserDAOImp implements UserDAO {
 
 	@Override
 	public int update(String key, User t) {
-		// TODO Auto-generated method stub
-		return 0;
+		String sql = "update user set password=?,status=? where username=?";
+		return template.update(sql, t.getPassword(),t.getStatus(),key);
+	}
+	
+	@Test
+	public void test() {
+		String key = "1";
+		User user = new User("1", "123456", 1);
+		System.out.println(update(key, user));
 	}
 
 	@Override
@@ -72,8 +86,14 @@ public class UserDAOImp implements UserDAO {
 
 	@Override
 	public List<User> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<User> list = null;
+		String sql = "select * from user";
+		try {
+			list = template.query(sql, new BeanPropertyRowMapper<>(User.class));
+		} catch (Exception e) {
+			//没有查到任何用户，会抛出异常
+		}		
+		return list;
 	}
 
 }

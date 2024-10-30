@@ -46,6 +46,9 @@ public class UserServiceImp implements UserService{
 			//插入账号成功
 			UserInfoService uis=new UserInfoServiceImp();
 			Msg msg=uis.registInfo(userinfo);
+			if (!msg.isSuccess()) {
+				//删除插入的账号，防止脏数据产生
+			}
 			return msg;
 		}
 		else {

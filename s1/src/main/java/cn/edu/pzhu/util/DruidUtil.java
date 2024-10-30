@@ -28,11 +28,11 @@ private static DataSource ds = null;
 		}
 	}
 	//提供连接池
-	public DataSource getDataSource() {
+	public static DataSource getDataSource() {
 		return ds;
 	}
 	//提供链接
-	public Connection getConnection() {
+	public static Connection getConnection() {
 		try {
 			return ds.getConnection();
 		} catch (SQLException e) {

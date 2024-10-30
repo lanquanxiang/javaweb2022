@@ -18,3 +18,9 @@
 1. 拷贝jar包
 2. 编写配置文件
 3. 创建工具类：初始化连接池，提供链接  (单元测试Junit)
+
+# 2. CRUD底层封装
+## 1. DBtils（Apache）
+## 2. Spring JdbcTemplate
+1. 增加依赖
+2. 
