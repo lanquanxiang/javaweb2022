@@ -5,30 +5,45 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import cn.edu.pzhu.dao.UserDAO;
 import cn.edu.pzhu.pojo.User;
+import cn.edu.pzhu.util.DruidUtil;
 import cn.edu.pzhu.util.JDBCUtil;
 
 public class UserDAOImp implements UserDAO{
 	
-	
+	private JdbcTemplate temp = new JdbcTemplate(DruidUtil.getDataSource());
 
 	@Override
 	public boolean insert(User obj) {
 		boolean flag = false;
-		
-		return flag;
+		String sql="insert into user values(?,?,?)";
+		int n = temp.update(sql,obj.getUsername(),obj.getPassword(),obj.getStatus());
+		if (n==1) {
+			flag=true;   //return true;
+		}
+		return flag;  //return false;
 	}
 
 	@Override
 	public boolean delete(String id) {
-		// TODO Auto-generated method stub
+		String sql="delete from user where username=?";
+		int n = temp.update(sql,id);
+		if (n==1) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean update(User obj) {
-		// TODO Auto-generated method stub
+		String sql="update user set password=?,status=? where username=?";
+		int n = temp.update(sql,obj.getPassword(),obj.getStatus(),obj.getUsername());
+		if (n==1) {
+			return true;
+		}
 		return false;
 	}
 

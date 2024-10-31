@@ -2,11 +2,16 @@ package cn.edu.pzhu.dao.imp;
 
 import java.util.List;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import cn.edu.pzhu.dao.FileMsgDAO;
 import cn.edu.pzhu.pojo.FileMsg;
+import cn.edu.pzhu.util.DruidUtil;
 
 public class FileMsgDAOImp implements FileMsgDAO{
 
+	private JdbcTemplate temp = new JdbcTemplate(DruidUtil.getDataSource());
 	@Override
 	public boolean insert(FileMsg obj) {
 		// TODO Auto-generated method stub
@@ -33,8 +38,13 @@ public class FileMsgDAOImp implements FileMsgDAO{
 
 	@Override
 	public List<FileMsg> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "select * from filemsg";
+		try {
+			return temp.query(sql, new BeanPropertyRowMapper<>(FileMsg.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null; //查不到数据
+		}	
 	}
 
 	@Override
