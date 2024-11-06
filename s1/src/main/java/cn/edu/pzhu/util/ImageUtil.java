@@ -28,10 +28,10 @@ public class ImageUtil {
 	 * 初始化验证码
 	 */
 	private void init() {
-		BufferedImage img = new BufferedImage(80, 25, BufferedImage.TYPE_INT_RGB);
+		BufferedImage img = new BufferedImage(100, 25, BufferedImage.TYPE_INT_RGB);
 		Graphics g = img.getGraphics();//得到画笔
 		g.setColor(Color.white);
-		g.fillRect(0, 0, 80, 25); //将整个图填充为白色
+		g.fillRect(0, 0, 100, 25); //将整个图填充为白色
 		
 		g.setColor(Color.black); //用黑色来写字
 		
@@ -39,7 +39,7 @@ public class ImageUtil {
 		for (int i = 0; i < 5; i++) {
 			int x1 = random.nextInt(20);
 			int y1 = random.nextInt(25);
-			int x2 = random.nextInt(60, 80);
+			int x2 = random.nextInt(60, 100);
 			int y2 = random.nextInt(25);
 			g.drawLine(x1, y1, x2, y2);
 		}
@@ -61,10 +61,10 @@ public class ImageUtil {
 	 * 初始化中文验证码
 	 */
 	private void initCN() {
-		BufferedImage img = new BufferedImage(80, 25, BufferedImage.TYPE_INT_RGB);
+		BufferedImage img = new BufferedImage(100, 25, BufferedImage.TYPE_INT_RGB);
 		Graphics g = img.getGraphics();//得到画笔
 		g.setColor(Color.white);
-		g.fillRect(0, 0, 80, 25); //将整个图填充为白色
+		g.fillRect(0, 0, 100, 25); //将整个图填充为白色
 		
 		g.setColor(Color.black); //用黑色来写字
 		
@@ -72,11 +72,11 @@ public class ImageUtil {
 		for (int i = 0; i < 5; i++) {
 			int x1 = random.nextInt(20);
 			int y1 = random.nextInt(25);
-			int x2 = random.nextInt(60, 80);
+			int x2 = random.nextInt(60, 100);
 			int y2 = random.nextInt(25);
 			g.drawLine(x1, y1, x2, y2);
 		}
-		//g.setFont(new Font("宋体", Font.BOLD, 20)); //加粗绘制验证码
+		g.setFont(new Font("宋体", Font.BOLD, 20)); //加粗绘制验证码
 		
 		String key = "";
 		
