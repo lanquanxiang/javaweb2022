@@ -16,6 +16,7 @@ import cn.edu.pzhu.pojo.User;
 import cn.edu.pzhu.pojo.UserInfo;
 import cn.edu.pzhu.service.UserService;
 import cn.edu.pzhu.service.imp.UserServiceImp;
+import cn.edu.pzhu.util.Conver2MD5;
 
 /**
  * Servlet implementation class RegistServlet
@@ -47,19 +48,24 @@ public class RegistServlet extends HttpServlet {
 		String captcha=request.getParameter("captcha");
 		
 		HttpSession session =  request.getSession();
-		
-		
-		//2.数据校验
-		if(!"gbcw".equalsIgnoreCase(captcha)) {
-			//提醒用户名不能为空			
-			session.setAttribute("msg", "验证码输入错误");		
-			
+		if(session.getAttribute("ans") instanceof String ans) {
+			if(!ans.equalsIgnoreCase(captcha)) {
+				session.setAttribute("msg", "验证码输入错误");		
+				session.setAttribute("url", "regist.jsp");
+				response.sendRedirect("error.jsp");
+				return; //流程结束，后续代码不需要再执行...
+			}
+		}else {
+			session.setAttribute("msg", "验证码初始化失败");		
 			session.setAttribute("url", "regist.jsp");
-			
-			//返回视图View(异常处理建议使用重定向)
 			response.sendRedirect("error.jsp");
 			return; //流程结束，后续代码不需要再执行...
 		}
+		
+		
+		
+		//2.数据校验
+		
 		if("".equals(username)) {//文本框没有输入，结果是""
 			//提醒用户名不能为空			
 			session.setAttribute("msg", "用户名不能为空");	
@@ -80,7 +86,11 @@ public class RegistServlet extends HttpServlet {
 		String type = JSON.toJSONString(types); //类型转换
 				
 		//3.数据封装
-		User user = new User(username,password,1);//默认账号可用，状态为1		
+		//写入数据库的密码进行加密
+		String  md5password = Conver2MD5.getSHA256(Conver2MD5.getSHA256(username+password)+"pzhu");
+		
+		
+		User user = new User(username,md5password,1);//默认账号可用，状态为1		
 		UserInfo userinfo = new UserInfo(username, email, gender , type);
 		//4.调用模型（省略）
 		UserService us = new UserServiceImp();

@@ -9,6 +9,33 @@
 		<meta charset="utf-8" />
 		<title>用户注册</title>
 		<link rel="stylesheet" type="text/css" href="css/my.css" />
+		<script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
+		<script type="text/javascript">
+			function check(){
+				let username = $("#username").val();
+				if(username!=""){
+					$.post(
+						"checkusername",
+						{
+							"name":username
+						},
+						function(res){
+							$(".note").html(res);
+						}
+					)
+				}
+			}
+			
+			function reload(cn){
+				if(cn=="cn"){
+					$("#captcha").attr("src","image?cn=yes&time="+new Date().getTime());
+				}else{
+					$("#captcha").attr("src","image?time="+new Date().getTime());
+				}
+				
+			}
+		
+		</script>
 	</head>
 	<body>
 		<h1 class="title">用户注册</h1>
@@ -17,9 +44,9 @@
 				<tr>
 					<td>账号</td>
 					<td>
-						<input type="text" name="username"/>
+						<input type="text" name="username" id="username" onchange="check()"/>
 					</td>
-					<td></td>
+					<td><span class="note" style="position: absolute;"></span></td>
 				</tr>
 				<tr>
 					<td>密码</td>
@@ -55,10 +82,11 @@
 				<tr>
 					<td>验证码</td>
 					<td>
-						<input type="text" name="captcha" value="gbcw"/>
+						<input type="text" name="captcha"/>
 					</td>
 					<td>
-						<img alt="" src="img/captcha.jpg">
+						<img id="captcha" alt="验证码加载失败" title="点击刷新" src="image" style="cursor: pointer;" onclick="reload()">
+						<a href="#" onclick="reload('cn')">中文验证码</a>
 					</td>
 				</tr>
 				<tr>

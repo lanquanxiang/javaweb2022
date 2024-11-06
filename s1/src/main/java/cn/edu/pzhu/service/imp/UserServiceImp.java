@@ -63,4 +63,14 @@ public class UserServiceImp implements UserService{
 		return null;
 	}
 
+	@Override
+	public String checkUsername(String username) {
+		
+		User dbUser = dao.selectById(username);
+		if (dbUser==null) {
+			return "恭喜，此用户名可用！";
+		}
+		return "此用户名已经被注册！";
+	}
+
 }

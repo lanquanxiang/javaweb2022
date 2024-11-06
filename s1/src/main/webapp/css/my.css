@@ -57,6 +57,9 @@ table{
 table input[type="text"],table input[type="password"]{
 	width: 250px;
 }
+.show td{
+	width:100px;
+}
 table input[type="submit"],table input[type="button"]{
 	width: 100px;
 	height: 25px;

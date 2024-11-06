@@ -17,7 +17,7 @@
 	</c:if>
 	<c:if test="${not empty list }">	
 		<h1 class="title">文件列表</h1>	
-			<table>
+			<table class="show">
 				<tr>
 					<th>序号</th>
 					<th>分享用户</th>

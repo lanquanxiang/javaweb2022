@@ -12,5 +12,12 @@ public interface UserService {
 	//注销
 	public Msg destory(String username);
 	//退出（销毁session，不需要持久层）
+	
+	/**
+	 * 检测用户名是否已经被注册
+	 * @param username
+	 * @return 如果被注册，返回“”；否则，返回“”.
+	 */
+	public String checkUsername(String username);
 
 }

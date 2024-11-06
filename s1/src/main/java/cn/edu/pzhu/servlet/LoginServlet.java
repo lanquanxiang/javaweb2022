@@ -14,6 +14,7 @@ import cn.edu.pzhu.pojo.Msg;
 import cn.edu.pzhu.pojo.User;
 import cn.edu.pzhu.service.UserService;
 import cn.edu.pzhu.service.imp.UserServiceImp;
+import cn.edu.pzhu.util.Conver2MD5;
 
 /**
  * Servlet implementation class LoginServlet
@@ -48,7 +49,10 @@ public class LoginServlet extends HttpServlet {
 			return;
 		}
 		//3.数据封装
-		User user = new User(username, password, 1);//注册的账号默认状态为1，表示可用；状态应该以数据库中的为准
+		
+		String md5password = Conver2MD5.getSHA256(Conver2MD5.getSHA256(username+password)+"pzhu");
+		
+		User user = new User(username, md5password, 1);//注册的账号默认状态为1，表示可用；状态应该以数据库中的为准
 		//4.调用业务层进行业务处理
 		UserService us = new UserServiceImp();
 		Msg msg = us.login(user);//执行登录
