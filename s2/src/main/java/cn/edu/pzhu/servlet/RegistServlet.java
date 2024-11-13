@@ -17,6 +17,7 @@ import cn.edu.pzhu.pojo.User;
 import cn.edu.pzhu.pojo.UserInfo;
 import cn.edu.pzhu.service.UserService;
 import cn.edu.pzhu.service.imp.UserServiceImp;
+import cn.edu.pzhu.util.Conver2MD5;
 
 /**
  * Servlet implementation class RegistServlet
@@ -50,6 +51,21 @@ public class RegistServlet extends HttpServlet {
 		PrintWriter out = response.getWriter(); //得到输出流
 		
 		//2.数据校验
+		
+		if(session.getAttribute("ans") instanceof String ans) {
+			if(!ans.equalsIgnoreCase(code)) {
+				//保存信息，回到视图
+				session.setAttribute("msg", "验证码输入错误！");
+				session.setAttribute("url", "regist.jsp");
+				response.sendRedirect("error.jsp");
+				return;
+			}
+		}else {
+			session.setAttribute("msg", "验证码初始化失败！");
+			session.setAttribute("url", "regist.jsp");
+			response.sendRedirect("error.jsp");
+			return;
+		}
 		if("".equals(username)) { //文本框没有输入得到的是空串；Java中字符串不能用==比较
 			//保存信息，回到视图
 			session.setAttribute("msg", "用户名不能为空！");
@@ -57,13 +73,7 @@ public class RegistServlet extends HttpServlet {
 			response.sendRedirect("error.jsp");
 			return;
 		}
-		if(!"gbcw".equalsIgnoreCase(code)) {
-			//保存信息，回到视图
-			session.setAttribute("msg", "验证码输入错误！");
-			session.setAttribute("url", "regist.jsp");
-			response.sendRedirect("error.jsp");
-			return;
-		}
+		
 		if(types==null) {//单选多选一个都没有选，得到的是null；Java中==null
 			session.setAttribute("msg", "关注类型必须要选择！");
 			session.setAttribute("url", "regist.jsp");
@@ -76,7 +86,10 @@ public class RegistServlet extends HttpServlet {
 		String type = JSON.toJSONString(types);//调用阿里巴巴的庫将数组转为JSON
 		
 		//4.数据封装
-		User user = new User(username, password, 1);//1表示账号可以使用
+		
+		String maskpassword = Conver2MD5.getSHA256(Conver2MD5.getSHA256(username+password)+"pzhu");
+		
+		User user = new User(username, maskpassword, 1);//1表示账号可以使用
 		UserInfo userinfo = new UserInfo(username, email, gender, type);
 		//5.初始化业务层接口
 		UserService us = new UserServiceImp();

@@ -18,4 +18,6 @@ public interface UserService {
 	//......
 	//修改密码
 	//......
+	public boolean checkusername(String username);
+	
 }

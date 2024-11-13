@@ -10,4 +10,6 @@ public interface UserInfoService {
 	public UserInfo showUserInfo(String username);
 	//修改个人信息
 	public Msg modUserInfo(UserInfo userInfo);
+	//发送邮件服务
+	public Msg sendEmail(String username, String email);
 }

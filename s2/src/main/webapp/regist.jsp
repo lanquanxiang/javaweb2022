@@ -9,6 +9,31 @@
 		<meta charset="utf-8">
 		<title>用户注册</title>
 		<link rel="stylesheet" type="text/css" href="css/my.css"/>
+		
+		<script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
+		<script type="text/javascript">
+			function check(){
+				let username = $("#username").val();
+				if(username!=""){
+					$.post("checkusername",{"name":username},function(res){
+						$(".note").html(res); //$(".note").text(res);
+					})
+				}
+			}
+			
+			
+			function reload(cn){
+				if(cn=='cn'){
+					$("#captcha").attr("src","captcha?cn=yes&time="+new Date().getTime());
+				}else{
+					$("#captcha").attr("src","captcha?time="+new Date().getTime());
+				}
+				
+			}
+			
+		</script>
+		
+		
 	</head>
 	<body>
 		<h1 class="title">用户注册</h1>
@@ -16,18 +41,18 @@
 			<table>
 				<tr>
 					<td>账号</td>
-					<td ><input type="text" name="username" /></td>
-					<td>用户名不能为空！</td>
+					<td ><input type="text" name="username" onchange="check()" id="username"/></td>
+					<td><span class="note" style="position: absolute;"></span> </td>
 				</tr>
 				<tr>
 					<td>密码</td>
 					<td ><input type="password" name="password" /></td>
-					<td>密码不能为空！</td>
+					<td></td>
 				</tr>
 				<tr>
 					<td>email</td>
 					<td ><input type="text" name="email" /></td>
-					<td>邮箱格式不正确！</td>
+					<td></td>
 				</tr>
 				<tr>
 					<td>性别</td>
@@ -49,8 +74,10 @@
 				</tr>
 				<tr>
 					<td>验证码</td>
-					<td ><input type="text" name="captcha"  value="gbcw"/></td>
-					<td><img src="img/captcha.jpg"/></td>
+					<td ><input type="text" name="captcha"/></td>
+					<td><img id="captcha" src="captcha" alt="验证码加载失败" title="点击刷新" onclick="reload()"/>
+						<a href="#" onclick="reload('cn')">中文验证码</a>
+					</td>
 				</tr>
 				<tr>
 					

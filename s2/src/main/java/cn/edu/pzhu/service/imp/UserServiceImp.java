@@ -61,4 +61,13 @@ public class UserServiceImp implements UserService {
 		return null;
 	}
 
+	@Override
+	public boolean checkusername(String username) {
+		User dbuser=userdao.selectById(username);
+		if(dbuser!=null) {
+			return false;
+		}
+		return true;
+	}
+
 }

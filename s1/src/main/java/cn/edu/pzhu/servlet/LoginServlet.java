@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +41,8 @@ public class LoginServlet extends HttpServlet {
 		//1.接收参数
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");	
+		String save = request.getParameter("save");
+		
 		HttpSession session = request.getSession();
 		//2.数据校验	
 		if ("".equals(username) || "".equals(password)) {// 文本框没有输入，结果是""
@@ -59,6 +62,32 @@ public class LoginServlet extends HttpServlet {
 		
 		if (msg.isSuccess()) {
 			//登录成功
+			if(save!=null) { //要保存
+				Cookie usernamecookie = new Cookie("username", username);
+				usernamecookie.setMaxAge(7*24*60*60);
+				response.addCookie(usernamecookie);
+				
+				Cookie passwordcookie = new Cookie("password", password);
+				passwordcookie.setMaxAge(7*24*60*60);
+				response.addCookie(passwordcookie);
+				
+				Cookie savecookie = new Cookie("save", "yes");
+				savecookie.setMaxAge(7*24*60*60);
+				response.addCookie(savecookie);
+				
+			}else {//不保存，清除之前的cookie 
+				Cookie usernamecookie = new Cookie("username", "");
+				usernamecookie.setMaxAge(0);
+				response.addCookie(usernamecookie);
+				
+				Cookie passwordcookie = new Cookie("password", "");
+				passwordcookie.setMaxAge(0);
+				response.addCookie(passwordcookie);
+				
+				Cookie savecookie = new Cookie("save", "");
+				savecookie.setMaxAge(0);
+				response.addCookie(savecookie);
+			}
 			session.setAttribute("user", user);
 			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().print("<script>alert('登录成功，请登录!');location.href='index.jsp'</script>");
