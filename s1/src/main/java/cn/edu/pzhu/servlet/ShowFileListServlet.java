@@ -1,12 +1,6 @@
 package cn.edu.pzhu.servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.edu.pzhu.pojo.FileMsg;
-import cn.edu.pzhu.util.JDBCUtil;
+import cn.edu.pzhu.service.FileMsgService;
+import cn.edu.pzhu.service.imp.FileMsgServiceImp;
 
 /**
  * Servlet implementation class ShowFileListServlet
@@ -37,40 +32,31 @@ public class ShowFileListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1.注册驱动
-		//2.建立和数据库的链接（数据库地址、数据库的用户名和密码--安装的时候配置）
-		Connection con = JDBCUtil.getConnection();
-		//3.编写SQL
-		String sql = "select * from filemsg";
-		
-		try {
-			//4.创建命令
-			Statement sta = con.createStatement();
-			//5.执行SQL
-			ResultSet res = sta.executeQuery(sql);
-			//6.遍历结果集（映射为Java中的集合）	
-			List<FileMsg> list = new ArrayList<>();
-			while(res.next()) {
-				int fileid = res.getInt(1);
-				String username = res.getString(2);
-				String filename = res.getString(3);
-				String classification = res.getString(4);
-				String filepath = res.getString(5);
-				Date relesaedate = res.getDate(6);
-				Double rating = res.getDouble("rating");
-				String description = res.getString(8);
-				FileMsg file = new FileMsg(fileid, username, filename, classification, filepath, relesaedate, rating, description);
-				list.add(file);						
+			String page = request.getParameter("page");
+			String num = request.getParameter("num");
+			int p = 1, n = 10;
+			if(page!=null) {
+				try {
+					p = Integer.parseInt(page);
+				} catch (Exception e) {
+					p = 1;
+				}
 			}
-			//7.释放资源 结果集--命令对象--连接
-			JDBCUtil.close(con, sta, res);
-			request.getSession().setAttribute("list", list);
+			if(num!=null) {
+				try {
+					n = Integer.parseInt(num);
+				} catch (Exception e) {
+					n = 10;
+				}
+			}
+			FileMsgService fms=new FileMsgServiceImp();
+			List<FileMsg> list = fms.showfilelist();//调用接口查询所有文件
+			List<FileMsg> pageList=null;//调用工具类切分列表
+			request.getSession().setAttribute("list", pageList);
 			response.sendRedirect("show.jsp");	
 			
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}		
+				
 	}
 
 	/**
