@@ -90,7 +90,7 @@ public class LoginServlet extends HttpServlet {
 			}
 			session.setAttribute("user", user);
 			response.setContentType("text/html;charset=utf-8");
-			response.getWriter().print("<script>alert('登录成功，请登录!');location.href='index.jsp'</script>");
+			response.getWriter().print("<script>alert('登录成功!');location.href='index.jsp'</script>");
 		}else {
 			//失败
 			session.setAttribute("msg", msg.getMessage());//将失败消息保存

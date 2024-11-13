@@ -7,6 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.edu.pzhu.pojo.Msg;
+import cn.edu.pzhu.service.UserInfoService;
+import cn.edu.pzhu.service.imp.UserInfoServiceImp;
+import cn.edu.pzhu.util.Conver2MD5;
+
 /**
  * Servlet implementation class SendEmailServlet
  */
@@ -34,10 +39,18 @@ public class SendEmailServlet extends HttpServlet {
 			response.getWriter().print("账号和邮箱信息不完整！");
 			return;
 		}
-
-		
-		
-		
+		//合法性校验
+		UserInfoService uis = new UserInfoServiceImp();
+		Msg msg = uis.sendEmail(username, email);
+		if (msg.isSuccess()) {
+			//保存正确的验证码，然后提示发送成功
+			String ans = Conver2MD5.getSHA256(username)+Conver2MD5.getSHA256(email)+Conver2MD5.getSHA256(msg.getMessage());
+			request.getSession().setAttribute("ans", ans);
+			response.getWriter().print("邮件已发送！");
+		} else {
+			//提示错误消息
+			response.getWriter().print(msg.getMessage());
+		}
 	}
 
 	/**

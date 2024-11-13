@@ -1,10 +1,12 @@
 package cn.edu.pzhu.service.imp;
 
+
 import cn.edu.pzhu.dao.UserInfoDAO;
 import cn.edu.pzhu.dao.imp.UserInfoDAOImp;
 import cn.edu.pzhu.pojo.Msg;
 import cn.edu.pzhu.pojo.UserInfo;
 import cn.edu.pzhu.service.UserInfoService;
+import cn.edu.pzhu.util.EmailUtil;
 
 public class UserInfoServiceImp implements UserInfoService{
 
@@ -37,11 +39,12 @@ public class UserInfoServiceImp implements UserInfoService{
 		if (userInfo==null) {
 			return new Msg(false, "此用户不存在！");
 		}
+		//还需要查询user表，检查user是否状态为0  //此用户已经被注销
 		if(!userInfo.getEmail().equals(email)) {
 			return new Msg(false, "邮箱与注册时不相符！");
 		}
 		//发送邮件
-		return null;
+		return EmailUtil.sendEmail(email);
 	}
 	
 }

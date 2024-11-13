@@ -22,7 +22,7 @@
 							"email":email
 						},
 						function(res){
-							$(".note").html(res);
+							$(".res").html(res);
 						}
 					)
 				}
@@ -31,7 +31,7 @@
 	</head>
 	<body>
 		<h1 class="title">邮箱登录</h1>
-		<form action="login" method="post">
+		<form action="loginemail" method="post">
 			<table>
 				<tr>
 					<td>账号</td>
