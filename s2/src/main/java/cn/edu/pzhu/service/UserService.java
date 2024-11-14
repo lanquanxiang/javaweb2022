@@ -19,5 +19,14 @@ public interface UserService {
 	//修改密码
 	//......
 	public boolean checkusername(String username);
+	//发送邮件
+	/**
+	 * 发送邮件
+	 * @param username 给username发邮件
+	 * @param email
+	 * @return 如果成功返回true和正确验证码，如果失败返回false和原因。
+	 */
+	public Msg sendemail(String username,String email);
+	
 	
 }

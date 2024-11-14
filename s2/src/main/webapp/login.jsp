@@ -16,15 +16,15 @@
 			<table>
 				<tr>
 					<td>账号</td>
-					<td colspan="2"><input type="text" name="username" /></td>
+					<td colspan="2"><input type="text" name="username" value="${cookie.username.value }"/></td>
 				</tr>
 				<tr>
 					<td>密码</td>
-					<td colspan="2"><input type="password" name="password" /></td>
+					<td colspan="2"><input type="password" name="password" value="${cookie.password.value }"/></td>
 				</tr>
 				<tr>
 					<td></td>
-					<td><input type="checkbox"  />密码保存七天</td>
+					<td><input type="checkbox" name="save" value="yes" ${empty cookie.save.value ? '':'checked' }/>密码保存七天</td>
 					<td><a href="">忘记密码</a></td>
 				</tr>
 				<tr>
