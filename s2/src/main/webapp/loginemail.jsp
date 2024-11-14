@@ -18,12 +18,10 @@
 					$.post("sendemail",{"name":username,"email":email},function(res){
 						$(".res").html(res); //$(".note").text(res);
 					})
+				}else{
+					$(".res").html("信息不完整！");
 				}
 			}
-			
-			
-			
-			
 		</script>
 	</head>
 	<body>
@@ -32,7 +30,8 @@
 			<table>
 				<tr>
 					<td>账号</td>
-					<td colspan="2"><input type="text" name="username" id ="username"/></td>
+					<td><input type="text" name="username" id ="username"/></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td>邮箱</td>

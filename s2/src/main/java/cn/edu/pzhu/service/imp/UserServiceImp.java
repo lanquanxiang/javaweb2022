@@ -8,6 +8,7 @@ import cn.edu.pzhu.pojo.Msg;
 import cn.edu.pzhu.pojo.User;
 import cn.edu.pzhu.pojo.UserInfo;
 import cn.edu.pzhu.service.UserService;
+import cn.edu.pzhu.util.EmailUtil;
 
 public class UserServiceImp implements UserService {
 	
@@ -68,6 +69,27 @@ public class UserServiceImp implements UserService {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public Msg sendemail(String username, String email) {
+		//完整性和合法性校验
+		User user= userdao.selectById(username);
+		if(user==null) {
+			return new Msg(false, "用户不存在");
+		}
+		if(user.getStatus()==0) {
+			return new Msg(false, "用户已经注销");
+		}
+		UserInfo userInfo= userinfodao.selectById(username);
+		if(userInfo==null) {
+			return new Msg(false, "用户信息异常");
+		}
+		if(!userInfo.getEmail().equals(email)) {
+			return new Msg(false, "邮箱与注册信息不匹配");
+		}
+		
+		return EmailUtil.sendemail(email);//调用工具类发送邮件
 	}
 
 }

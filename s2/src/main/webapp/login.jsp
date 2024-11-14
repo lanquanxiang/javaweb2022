@@ -25,7 +25,7 @@
 				<tr>
 					<td></td>
 					<td><input type="checkbox" name="save" value="yes" ${empty cookie.save.value ? '':'checked' }/>密码保存七天</td>
-					<td><a href="">忘记密码</a></td>
+					<td><a href="loginemail.jsp">忘记密码</a></td>
 				</tr>
 				<tr>
 					

@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.edu.pzhu.pojo.Msg;
+import cn.edu.pzhu.service.UserService;
+import cn.edu.pzhu.service.imp.UserServiceImp;
+import cn.edu.pzhu.util.Conver2MD5;
+
 /**
  * Servlet implementation class SendEmailServlet
  */
@@ -36,6 +41,17 @@ public class SendEmailServlet extends HttpServlet {
 		if (username==null||email==null||"".equals(username)||"".equals(email)) {
 			out.print("账号或邮箱不完整");
 			return;
+		}
+		UserService userService = new UserServiceImp();
+		Msg msg = userService.sendemail(username, email);
+		if (msg.isSuccess()) {
+			//提示成功同时生成登录口令
+			out.print("邮件发送成功");
+			String token = Conver2MD5.getSHA256(username)+Conver2MD5.getSHA256(email)+Conver2MD5.getSHA256(msg.getMessage());
+			request.getSession().setAttribute("token", token);
+		}else {
+			//提示失败
+			out.print(msg.getMessage());
 		}
 	}
 
