@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import cn.edu.pzhu.pojo.FileMsg;
 import cn.edu.pzhu.service.FileMsgService;
 import cn.edu.pzhu.service.imp.FileMsgServiceImp;
+import cn.edu.pzhu.util.PageUtil;
 
 /**
  * Servlet implementation class ShowFileListServlet
@@ -35,7 +36,7 @@ public class ShowFileListServlet extends HttpServlet {
 			String page = request.getParameter("page");
 			String num = request.getParameter("num");
 			int p = 1, n = 10;
-			if(page!=null) {
+			if(page!=null) { //"-1"
 				try {
 					p = Integer.parseInt(page);
 				} catch (Exception e) {
@@ -51,8 +52,14 @@ public class ShowFileListServlet extends HttpServlet {
 			}
 			FileMsgService fms=new FileMsgServiceImp();
 			List<FileMsg> list = fms.showfilelist();//调用接口查询所有文件
-			List<FileMsg> pageList=null;//调用工具类切分列表
+			List<FileMsg> pageList=PageUtil.splitList(list, p, n);//调用工具类切分列表
 			request.getSession().setAttribute("list", pageList);
+			
+			//导航栏
+			StringBuffer bar = PageUtil.createBar(list, p, n);;
+			request.getSession().setAttribute("bar", bar);
+			
+			request.getSession().setAttribute("num", num);
 			response.sendRedirect("show.jsp");	
 			
 			

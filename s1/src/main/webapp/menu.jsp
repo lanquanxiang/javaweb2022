@@ -26,7 +26,7 @@
 				</li>
 				<li class="menu">文件分享
 					<ul>
-						<li><a href="">分享文件</a></li>
+						<li><a href="upload.jsp">分享文件</a></li>
 						<li><a href="">我的分享</a></li>
 					</ul>
 				</li>
