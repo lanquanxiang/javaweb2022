@@ -53,6 +53,8 @@ public class ShowFileListServlet extends HttpServlet {
 		//导航栏
 		StringBuffer bar = fms.createBar(page, num);
 		request.getSession().setAttribute("bar", bar);
+		
+		request.getSession().setAttribute("num", num);
 		response.sendRedirect("show.jsp");
 		
 	}

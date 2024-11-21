@@ -37,7 +37,13 @@
 						<td>${file.username}</td>
 						<td>${file.filename}</td>
 						<td>${file.classification}</td>
-						<td><a href="">下载</a></td>
+						<td>
+						<form action = "download" method = "post">
+						<input type = "hidden" name ="filename" value = "${file.filename}">
+						<input type = "hidden" name ="filepath" value = "${file.filepath}">
+						<input type = "submit" value = "下载"/>
+						</form>
+						</td>
 						<td>${file.releasedate}</td>
 						<td>${file.rating}</td>
 						<td>${file.description}</td>
@@ -50,6 +56,14 @@
 				
 				<tr>
 					<td colspan="9">${bar}</td>
+				</tr>
+				<tr>
+					<td colspan="9">
+						<form action="showlist">
+						   每页显示<input type = "text" name ="num" value ="${empty num?10:num }"/>
+						   <input type = "submit" value = "确定"/>
+						</form>
+					</td>
 				</tr>
 							
 			</table>	
