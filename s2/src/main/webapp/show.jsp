@@ -46,7 +46,12 @@
 							<button>删除</button>
 						</td>
 					</tr>				
-				</c:forEach>			
+				</c:forEach>
+				
+				<tr>
+					<td colspan="9">${bar}</td>
+				</tr>
+							
 			</table>	
 			</c:if>
 	</body>

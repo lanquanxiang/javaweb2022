@@ -2,6 +2,7 @@ package cn.edu.pzhu.dao.imp;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -63,6 +64,27 @@ public class FileMsgDAOImp implements FileMsgDAO{
 	public List<FileMsg> selectByUsername(String username) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Integer countFiles() {
+		String sql = "select count(*) from filemsg";
+		return temp.queryForObject(sql, Integer.class);
+	}
+	@Test
+	public void test() {
+		System.out.println(countFiles());
+	}
+
+	@Override
+	public List<FileMsg> select(int start, int length) {
+		String sql = "select * from filemsg limit ?,?";
+		try {
+			return temp.query(sql, new BeanPropertyRowMapper<>(FileMsg.class),start,length);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null; //查不到数据
+		}	
 	}
 
 }

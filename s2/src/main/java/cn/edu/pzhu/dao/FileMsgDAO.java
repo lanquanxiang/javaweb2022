@@ -13,4 +13,8 @@ public interface FileMsgDAO extends GenericDAO<FileMsg, Integer>{
 	public List<FileMsg> selectByKeyword(String keyword);
 	//按照分享人进行查询
 	public List<FileMsg> selectByUsername(String username); 
+	//统计文件的个数
+	public Integer countFiles();
+	//查询start开始的length条数据
+	public List<FileMsg> select(int start,int length);
 }
